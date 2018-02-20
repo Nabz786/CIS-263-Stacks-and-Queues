@@ -6,7 +6,7 @@
 #include <streambuf>
 
 /**********************************************************************
- *Stacked and queuse, these two methods support different
+ *Stacks and queues, these two methods support different
  *implementations of stacka and queues and how they can be used to 
  *solve problems.
  *
@@ -16,46 +16,49 @@
 
 
 
-/**
+/**********************************************************************
  *This method takes in a string and checks to see if three basic 
  *symbols are balanced
  *@param string - input string to check 
  *returns boolean - true or false if the characters are balanced
- **/ 
+ **********************************************************************/ 
+
 bool balancedSymbols(std::string input){
 
-	std::cout << "Checking to see if the string is balanced " << input << std::endl;
-	//create a new empty stack 
+	std::cout << "Parsing Code " << input << std::endl;
+
 	std::stack<char, std::deque<char> > checkSymbols; 
 
 	for(auto iterator = input.begin(); iterator != input.end(); ++iterator){
 		if(*iterator == '(' || *iterator == '[' || *iterator == '{'){
 			checkSymbols.push(*iterator);				
 		}else{
-			 if((*iterator == ')' && checkSymbols.size() == 0) || (*iterator == ']' && checkSymbols.size() == 0) || 
-				 (*iterator == '}' && checkSymbols.size() == 0)){	
-					std::cout << "Unmatched Symbol Expression!" << std::endl; 
-					return false;
+			 if((*iterator == ')' && checkSymbols.empty())
+			  || (*iterator == ']' && checkSymbols.empty())
+		          ||  (*iterator == '}' && checkSymbols.empty())
+			  ){	
+				std::cout << "Unmatched Symbol Expression!" << std::endl; 
+				return false;
 			 }else{
 				switch(*iterator){
 					case ')':
-						if(checkSymbols.top()!= '('){
+						if(checkSymbols.top()!= '(')
 							std::cout << "Unmatched Symbol Expression!" << std::endl;
-						}else{
+						else
 							checkSymbols.pop();
-						}break;
+						break;
 					case ']':
-						if(checkSymbols.top()!= '['){
+						if(checkSymbols.top()!= '[')
 							std::cout << "Unmatched Symbol Expression!" << std::endl;
-						}else{
+						else
 							checkSymbols.pop();
-						}break;
+						break;
 					case '}':
-						if(checkSymbols.top()!= '{'){
+						if(checkSymbols.top()!= '{')
 							std::cout << "Unmatched Symbol Expression!" << std::endl;
-						}else{
+						else
 							checkSymbols.pop();	
-						}break;
+						break;
 				}
 			}
 		}
