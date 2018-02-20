@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <fstream> 
+#include <streambuf>
 
 /**********************************************************************
  *Stacked and queuse, these two methods support different
@@ -11,7 +13,7 @@
  *@author Nabeel Vali
  ********************************************************************/
 
-public:
+
 
 
 /**
@@ -35,22 +37,31 @@ bool balancedSymbols(std::string input){
 					std::cout << "Unmatched Symbol Expression!" << std::endl; 
 					return false;
 			 }else{
-				if(*iterator == ')' && checkSymbols.top() != '('){
-					std::cout << "Unmatched Symbol Expression!" << std::endl;
-					return false;
-				}else if(*iterator == ']' && checkSymbols.top() != '['){
-					std::cout << "Unmatched Symbol Expression!" << std::endl;
-					return false;
-				}else if(*iterator == '}' && checkSymbols.top() != '{'){
-					std::cout << "Umatched Symbol Expression!" << std::endl;
-					return false; 
-				}else
-					checkSymbols.pop();
+				switch(*iterator){
+					case ')':
+						if(checkSymbols.top()!= '('){
+							std::cout << "Unmatched Symbol Expression!" << std::endl;
+						}else{
+							checkSymbols.pop();
+						}break;
+					case ']':
+						if(checkSymbols.top()!= '['){
+							std::cout << "Unmatched Symbol Expression!" << std::endl;
+						}else{
+							checkSymbols.pop();
+						}break;
+					case '}':
+						if(checkSymbols.top()!= '{'){
+							std::cout << "Unmatched Symbol Expression!" << std::endl;
+						}else{
+							checkSymbols.pop();	
+						}break;
+				}
 			}
 		}
 	}
 
-	if(checkSymbols.size() != 0){
+	if(!checkSymbols.empty()){
 		std::cout << "String was not balanced!" << std::endl;
 		return false;
 	}else{
@@ -66,15 +77,11 @@ std::string iToP(std::string input){
 }
 
 int main(int argc, char** argv){
+
 	try{
-		balancedSymbols("()"); //TRUE
-		balancedSymbols("((()))"); //TRUE
-		balancedSymbols("{(((([]))))}"); //TRUE
-		balancedSymbols("([)]"); //False
-		balancedSymbols("(((()()(()"); //FALSE
-		balancedSymbols("{{(((([][]))))}"); //FALSE
-		balancedSymbols("{"); //FALSE
-		balancedSymbols("}"); //FALSE
+		std::ifstream t("test");
+		std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		balancedSymbols(str);
 	}catch(char const* error){
 		std::cout << error << std::endl;
 	}
