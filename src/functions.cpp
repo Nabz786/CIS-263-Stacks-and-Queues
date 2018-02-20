@@ -79,12 +79,16 @@ std::string iToP(std::string input){
 
 }
 
+std::string loadFile(){
+	std::ifstream t("test");
+	std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+	return str;
+}
+
 int main(int argc, char** argv){
 
 	try{
-		std::ifstream t("test");
-		std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-		balancedSymbols(str);
+		balancedSymbols(loadFile());
 	}catch(char const* error){
 		std::cout << error << std::endl;
 	}
