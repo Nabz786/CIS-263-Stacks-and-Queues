@@ -9,7 +9,6 @@
  *Stacks and queues, these two methods support different
  *implementations of stacka and queues and how they can be used to 
  *solve problems.
- *
  *@author Nabeel Vali
  ********************************************************************/
 
@@ -81,7 +80,8 @@ std::string iToP(std::string input){
 
 std::string loadFile(){
 	std::ifstream t("test");
-	std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+	std::string str((std::istreambuf_iterator<char>(t)),
+	std::istreambuf_iterator<char>());
 	return str;
 }
 
