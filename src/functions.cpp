@@ -138,7 +138,7 @@ std::string iToP(std::string input){
 				}
 				//finally remove the opening parenthese
 				operatorStack.pop();
-		    }
+		   	 }
 		    
 			}
 		}	
@@ -185,9 +185,13 @@ int getPrecedence(char input){
 	return precedenceVal;
 }
 
-/**
+/***********************************************************************
  *This method loads a text file into a string from a specified file path
- **/
+ *@param string-file to be tested
+ *@returns the contents of the file in one string
+ **********************************************************************/
+//source for code on how to load file:
+//https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
 std::string loadFile(std::string file){
 	std::ifstream t(file);
 	std::string str((std::istreambuf_iterator<char>(t)),
