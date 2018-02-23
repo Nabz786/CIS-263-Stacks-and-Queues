@@ -171,16 +171,16 @@ int getPrecedence(char input){
 			return 1;
 			break;
 		case '+':
-			precedenceVal = 1;
+			return 1;
 			break;
 		case '/':
-			precedenceVal = 2;
+			return 2;
 			break;
 		case '*':
-			precedenceVal = 2;
+			return 2;
 			break;
 		case '(':
-			precedenceVal = -1;
+			return -1;
 			break;
 	}
 	return precedenceVal;
