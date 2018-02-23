@@ -19,4 +19,5 @@ int main(int argc, char** argv){
 	std::cout << iToP("1+2*3+6") << std::endl;
 	std::cout << iToP("2+8*3+(7+6*6)*5+(6*3-2)/7") << std::endl;
 	std::cout << iToP("(5*2)*((7-5*2)*(5+3))") << std::endl;
+	std::cout << iToP("5*3/4-8((7*5/4)*7-3/6)*7-3(3(3/7*5))*5");
 }
