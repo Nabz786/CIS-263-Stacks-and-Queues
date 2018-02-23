@@ -168,7 +168,7 @@ int getPrecedence(char input){
 
 	switch(input){
 		case '-':
-			precedenceVal = 0;
+			return 1;
 			break;
 		case '+':
 			precedenceVal = 1;
@@ -177,7 +177,7 @@ int getPrecedence(char input){
 			precedenceVal = 2;
 			break;
 		case '*':
-			precedenceVal = 3;
+			precedenceVal = 2;
 			break;
 		case '(':
 			precedenceVal = -1;
