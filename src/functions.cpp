@@ -81,6 +81,7 @@ bool balancedSymbols(std::string input){
  *This method takes in an infix expression and returns a postfix 
  *expression
  *param- std::string - infix expression
+ *returns std::string - postfix expression
  *********************************************************************/
 
 std::string iToP(std::string input){
@@ -161,7 +162,7 @@ std::string iToP(std::string input){
  *weight/precedence value
  *@param char - character to be weighted
  *@return int - weight of character
- * *******************************************************************/
+ *********************************************************************/
 int getPrecedence(char input){
 	int precedenceVal = 0;
 
