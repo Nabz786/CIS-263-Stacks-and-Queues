@@ -111,23 +111,23 @@ std::string iToP(std::string input){
 		            operatorStack.push(*iterator);
 		        }else if(operatorStack.empty()){
 					operatorStack.push(*iterator);
-				//if the iterator value is greater than the top value
-				//we push to the stack
-				}else if(getPrecedence(*iterator) >
+			//if the iterator value is greater than the top value
+			//we push to the stack
+			}else if(getPrecedence(*iterator) >
 						 getPrecedence(operatorStack.top())){
 					operatorStack.push(*iterator);
-				}else{
-					//if we get an operator of lower precedence we must
-					//remove everything of greater and the same precedence
-					while(!operatorStack.empty() && (getPrecedence(*iterator)
-						 <= getPrecedence(operatorStack.top()))){
-						outputString.push_back(operatorStack.top());
-						outputString.append(" ");
-						operatorStack.pop();
-					}
+			}else{
+				//if we get an operator of lower precedence we must
+				//remove everything of greater and the same precedence
+				while(!operatorStack.empty() && (getPrecedence(*iterator)
+					 <= getPrecedence(operatorStack.top()))){
+					outputString.push_back(operatorStack.top());
+					outputString.append(" ");
+					operatorStack.pop();
+				}
 					//we finally add the iterator after everything is popped
 					operatorStack.push(*iterator);
-				}
+			}
 			//if we get a closing parenthese we must remove everything between both tags
 		    }else{
 		         if(*iterator == ')'){
