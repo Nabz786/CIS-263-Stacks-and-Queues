@@ -29,13 +29,12 @@ bool balancedSymbols(std::string input){
 	//create and initialize a new stack 
 	std::stack<char, std::deque<char> > checkSymbols; 
 
-	//loop through all chars in the string, only push specific chars
-	//if the stack is empty and we find a closing char we highlight an error
-	//if not previous case, validate that each char has a corresponding char
+	//loop through each char only adding the three basic chars
 	for(auto iterator = input.begin(); iterator != input.end(); ++iterator){
 		if(*iterator == '(' || *iterator == '[' || *iterator == '{'){
 			checkSymbols.push(*iterator);				
 		}else{	
+			//closing tag and stack is empty throw error
 			 if((*iterator == ')' && checkSymbols.empty())
 			  || (*iterator == ']' && checkSymbols.empty())
 		          ||  (*iterator == '}' && checkSymbols.empty())
@@ -43,6 +42,7 @@ bool balancedSymbols(std::string input){
 				std::cout << "Unmatched Symbol Expression!" << std::endl; 
 				return false;
 			 }else{
+				//check the stack for the opening char
 				switch(*iterator){
 					case ')':
 						if(checkSymbols.top()!= '(')
@@ -77,6 +77,12 @@ bool balancedSymbols(std::string input){
 	}
 }
 
+/**********************************************************************
+ *This method takes in an infix expression and returns a postfix 
+ *expression
+ *param- std::string - infix expression
+ *********************************************************************/
+
 std::string iToP(std::string input){
 
 	std::cout << "Parsing: " << input << std::endl;
@@ -85,7 +91,9 @@ std::string iToP(std::string input){
 	
 	std::stack<char, std::deque<char> > operatorStack;
 
+	//begin by looping through each char
 	for(auto iterator = input.begin(); iterator != input.end(); ++iterator){
+		//only numbers and variables get passed immediately to the postfix
 		if(*iterator != '('
 		 && *iterator != ')'
 		 && *iterator != '+'
@@ -95,34 +103,48 @@ std::string iToP(std::string input){
 		 ){
 			outputString.push_back(*iterator);
 			outputString.append(" ");
+		//if we find an operator we check what type it is
 		}else{	
-			if(*iterator == ')'){
-				while(operatorStack.top() != '(' && !operatorStack.empty()){
-					outputString.push_back(operatorStack.top());
-					operatorStack.pop();
-				}
-				operatorStack.pop();
-			}else if(*iterator == '('){
-				operatorStack.push(*iterator);
-			}else{
-				if(operatorStack.empty()){
+		    if(*iterator != ')'){
+			//if the char is a opening parenthese we push to the stack
+		        if(*iterator == '('){
+		            operatorStack.push(*iterator);
+		        }else if(operatorStack.empty()){
 					operatorStack.push(*iterator);
-				}else if(getPrecedence(*iterator) > getPrecedence(operatorStack.top())){
+				//if the iterator value is greater than the top value
+				//we push to the stack
+				}else if(getPrecedence(*iterator) >
+						 getPrecedence(operatorStack.top())){
 					operatorStack.push(*iterator);
 				}else{
-					while((getPrecedence(*iterator) <= getPrecedence(operatorStack.top()))&& !operatorStack.empty()){
+					//if we get an operator of lower precedence we must
+					//remove everything of greater and the same precedence
+					while(!operatorStack.empty() && (getPrecedence(*iterator)
+						 <= getPrecedence(operatorStack.top()))){
 						outputString.push_back(operatorStack.top());
 						outputString.append(" ");
 						operatorStack.pop();
 					}
-					std::cout << "her2e" << std::endl;
+					//we finally add the iterator after everything is popped
 					operatorStack.push(*iterator);
 				}
+			//if we get a closing parenthese we must remove everything between both tags
+		    }else{
+		         if(*iterator == ')'){
+			//loop and remove all items between both parentheses
+		            while(operatorStack.top() != '(' && !operatorStack.empty()){
+					outputString.push_back(operatorStack.top());
+					operatorStack.pop();
+				}
+				//finally remove the opening parenthese
+				operatorStack.pop();
+		    }
+		    
 			}
 		}	
 	}
 	
-	std::cout << "Please be here" << std::endl;
+	//if the stack wasnt empty pop and append everything to the postfix exp
 	if(!operatorStack.empty()){
 		while(!operatorStack.empty()){
 			outputString.push_back(operatorStack.top());
@@ -130,9 +152,16 @@ std::string iToP(std::string input){
 			operatorStack.pop();
 		}
 	}
+	//return the new postfix expression
 	return outputString;
 }
 
+/**********************************************************************
+ *This method takes in a operator character and returns a correct
+ *weight/precedence value
+ *@param char - character to be weighted
+ *@return int - weight of character
+ * *******************************************************************/
 int getPrecedence(char input){
 	int precedenceVal = 0;
 
@@ -159,24 +188,10 @@ int getPrecedence(char input){
 /**
  *This method loads a text file into a string from a specified file path
  **/
-std::string loadFile(){
-	std::ifstream t("test");
+std::string loadFile(std::string file){
+	std::ifstream t(file);
 	std::string str((std::istreambuf_iterator<char>(t)),
 	std::istreambuf_iterator<char>());
 	return str;
 }
 
-int main(int argc, char** argv){
-//	try{
-//	
-//		balancedSymbols(loadFile());
-//	}catch(char const* error){
-//		std::cout << error << std::endl;
-//	}
-
-	std::cout << iToP("1+2*3+6") << std::endl;
-//	std::cout << iToP("2 + ( 7 + 6 * 6 ) * 5") << std::endl;
-//	std::cout << getPrecedence('+') << std::endl;
-//	std::cout << iToP("2+6+7+9+4+5+3+2+5+1+9") << std::endl;
-
-}
