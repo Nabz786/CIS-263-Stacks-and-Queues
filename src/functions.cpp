@@ -46,19 +46,19 @@ bool balancedSymbols(std::string input){
 				switch(*iterator){
 					case ')':
 						if(checkSymbols.top()!= '(')
-							std::cout << "Unmatched Symbol Expression!" << std::endl;
+							return false;
 						else
 							checkSymbols.pop();
 						break;
 					case ']':
 						if(checkSymbols.top()!= '[')
-							std::cout << "Unmatched Symbol Expression!" << std::endl;
+							return false;
 						else
 							checkSymbols.pop();
 						break;
 					case '}':
 						if(checkSymbols.top()!= '{')
-							std::cout << "Unmatched Symbol Expression!" << std::endl;
+							return false;
 						else
 							checkSymbols.pop();	
 						break;
@@ -93,59 +93,36 @@ std::string iToP(std::string input){
 		 && *iterator != '*'
 		 && *iterator != '/'
 		 ){
-			std::cout << *iterator << std::endl;
 			outputString.push_back(*iterator);
 			outputString.append(" ");
-		//	std::cout << *iterator << std::endl;	
-		}else{			
-			if(operatorStack.empty()){
-				std::cout << *iterator << std::endl;
-				operatorStack.push(*iterator);
-				std::cout << "here1" << std::endl;
-			}else if(*iterator == ')'){
+		}else{	
+			if(*iterator == ')'){
 				while(operatorStack.top() != '(' && !operatorStack.empty()){
 					outputString.push_back(operatorStack.top());
 					operatorStack.pop();
 				}
 				operatorStack.pop();
-				std::cout << "here2" << std::endl;
+			}else if(*iterator == '('){
+				operatorStack.push(*iterator);
 			}else{
-				std::cout << "here4" << std::endl;
-				if(getPrecedence(operatorStack.top()) >= getPrecedence(*iterator)){
-					if(getPrecedence(*iterator) == 99){
-						operatorStack.push(*iterator);
-					}else{
-					std::cout << "here5" << std::endl;
-					std::cout << "stack size " << operatorStack.size() << std::endl;
-					std::cout << "top " << getPrecedence(operatorStack.top()) << " iterator " << getPrecedence(*iterator) << std::endl;
-					int currentIterator = getPrecedence(*iterator);
-					int currentTop = getPrecedence(operatorStack.top());
-					while(currentTop >= currentIterator){
-						if(!operatorStack.empty()){
-						std::cout << "here6" << std::endl;
-						outputString.push_back(operatorStack.top());
-						std::cout << "here7" << std::endl;
-						outputString.append(" ");	
-						std::cout << "here8" << std::endl;
-						operatorStack.pop();
-						if(!operatorStack.empty()){
-							currentTop = getPrecedence(operatorStack.top());
-						}
-
-							std::cout << "here9" << std::endl;
-						}
-					}
-					std::cout << "end loop" << std::endl;	
-					}
-				//	operatorStack.push(*iterator);
+				if(operatorStack.empty()){
+					operatorStack.push(*iterator);
+				}else if(getPrecedence(*iterator) > getPrecedence(operatorStack.top())){
+					operatorStack.push(*iterator);
 				}else{
-					operatorStack.push(*iterator);			
+					while((getPrecedence(*iterator) <= getPrecedence(operatorStack.top()))&& !operatorStack.empty()){
+						outputString.push_back(operatorStack.top());
+						outputString.append(" ");
+						operatorStack.pop();
+					}
+					std::cout << "her2e" << std::endl;
+					operatorStack.push(*iterator);
 				}
-				std::cout << "here3" << std::endl;
-			}	
-		}
+			}
+		}	
 	}
-
+	
+	std::cout << "Please be here" << std::endl;
 	if(!operatorStack.empty()){
 		while(!operatorStack.empty()){
 			outputString.push_back(operatorStack.top());
@@ -173,7 +150,7 @@ int getPrecedence(char input){
 			precedenceVal = 3;
 			break;
 		case '(':
-			precedenceVal = 99;
+			precedenceVal = -1;
 			break;
 	}
 	return precedenceVal;
@@ -197,7 +174,9 @@ int main(int argc, char** argv){
 //		std::cout << error << std::endl;
 //	}
 
-	//std::cout << iToP("1 + 2 * 3 + ( 4 * 5 + 6) * 7") << std::endl;
-	std::cout << iToP("1-(7+6)") << std::endl;
+	std::cout << iToP("1+2*3+6") << std::endl;
+//	std::cout << iToP("2 + ( 7 + 6 * 6 ) * 5") << std::endl;
 //	std::cout << getPrecedence('+') << std::endl;
+//	std::cout << iToP("2+6+7+9+4+5+3+2+5+1+9") << std::endl;
+
 }
