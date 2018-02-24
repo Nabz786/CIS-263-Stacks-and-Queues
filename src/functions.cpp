@@ -103,7 +103,6 @@ std::string iToP(std::string input){
 		 && *iterator != '/'
 		 ){
 			outputString.push_back(*iterator);
-		//	outputString.append(" ");
 		//if we find an operator we check what type it is
 		}else{	
 		    if(*iterator != ')'){
@@ -123,7 +122,6 @@ std::string iToP(std::string input){
 				while(!operatorStack.empty() && (getPrecedence(*iterator)
 					 <= getPrecedence(operatorStack.top()))){
 					outputString.push_back(operatorStack.top());
-		//			outputString.append(" ");
 					operatorStack.pop();
 				}
 					//we finally add the iterator after everything is popped
@@ -140,7 +138,6 @@ std::string iToP(std::string input){
 				//finally remove the opening parenthese
 				operatorStack.pop();
 		   	 }
-		    
 			}
 		}	
 	}
@@ -149,7 +146,6 @@ std::string iToP(std::string input){
 	if(!operatorStack.empty()){
 		while(!operatorStack.empty()){
 			outputString.push_back(operatorStack.top());
-		//	outputString.append(" ");
 			operatorStack.pop();
 		}
 	}
